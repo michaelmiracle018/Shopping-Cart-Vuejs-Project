@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 // import axios from "axios";
 
 // const cartURL = "http://localhost:4000/items";
+let cart = window.localStorage.getItem("cart");
 export default createStore({
 	state: {
 		counter: 1,
@@ -67,25 +68,33 @@ export default createStore({
 	},
 
 	getters: {
-		displayCartItems: (state) => state.products,
-		getProductItems: (state) => state.cart,
+		displayCartItems(state) {
+			// localStorage.setItem("state.products", JSON.stringify(state.products));
+			return state.products;
+		},
+		getProductItems(state) {
+			// localStorage.setItem("cart", state.cart)
+			return state.cart;
+		},
 		getTotalItems: (state) => {
-			let total = 0;
+			var total = 0;
 			state.cart.forEach((item) => {
 				total += item.price * item.quantity;
 			});
 			return total.toFixed(2);
 		},
 		cartQuantity(state) {
-			return state.cart.reduce((sum, cart) => {
-				return sum + cart.quantity
-			}, 0)
-		}
+			return state.cart.reduce((sum, item) => {
+				return sum + item.quantity;
+			}, 0);
+
+		},
 	},
 
 	actions: {
 		addToCart({ commit }, item) {
-			commit("addToCart", item);
+			localStorage.setItem("cart", JSON.stringify(item))
+			commit("addToCart", item)
 		},
 		removeFromCart({ commit }, id) {
 			commit("removeItem", id);
@@ -99,21 +108,28 @@ export default createStore({
 		removeAllCart({ commit }, cart) {
 			commit("removeAllItem", cart);
 		},
+		getCartFromStorage({ commit }) {
+			localStorage.getItem(JSON.parse(cart))
+			commit("addToCart")
+		}
 	},
 	mutations: {
 		addToCart(state, item) {
-			state.cart.push({ ...item, quantity: 1 });
+		state.cart.push({ ...item, quantity: 1 });
+			// localStorage.setItem("cart", itemProduct)
 			state.products.map((product) => {
 				if (product.id === item.id) {
 					item.lock = true;
 				}
-			})
+			});
 		},
+		// saveCart: (state) => {
+		// 	window.localStorage.setItem("cart", JSON.stringify(state.cart));
+		// },
 		removeItem(state, id) {
 			state.cart = state.cart.filter((item) => item.id !== id);
 		},
 		increaseCartItem(state, id) {
-			// state.counter = state.counter + payload;
 			state.cart.map((item) => {
 				if (item.id == id) {
 					item.quantity += 1;
@@ -132,9 +148,8 @@ export default createStore({
 				}
 			});
 		},
-		removeAllItem(state,cart) {
-			state.cart = state.cart.splice(0, cart)
-			
-		}
+		removeAllItem(state, cart) {
+			state.cart = state.cart.splice(0, cart);
+		},
 	},
 });

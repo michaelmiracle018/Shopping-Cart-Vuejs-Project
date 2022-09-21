@@ -43,13 +43,14 @@
 						v-show="!item.lock"
 					>
 						<i class="fa-solid fa-cart-shopping"></i>
-						{{ !item.lock ? "Add To Cart" : "In cart" }}
+						<!-- {{ item.lock ? "In Cart" : "Add to Cart" }} -->
 					</button>
 				</div>
 				<h3>{{ item.title }}</h3>
 				<h4>${{ item.price  }}</h4>
 			</article>
 			<!-- end of single products -->
+
 		</div>
 	</section>
 	<!-- end of products -->
@@ -61,10 +62,10 @@ export default {
 	name: "Products",
 	props: ["toggleSidebar"],
 	computed: {
-		...mapGetters(["displayCartItems",'cartQuantity']),
+		...mapGetters(["displayCartItems",'cartQuantity', 'setBtnLock']),
 	},
 	methods: {
-		...mapActions(["addToCart"]),
+		...mapActions(["addToCart",'setUpCart']),
 	},
 };
 </script>

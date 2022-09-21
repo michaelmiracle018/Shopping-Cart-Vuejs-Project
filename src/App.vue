@@ -6,7 +6,6 @@
 <script>
 import Products from "./components/Products.vue";
 import Sidebar from "./components/Sidebar.vue";
-
 export default {
 	name: "App",
 	components: {
@@ -22,8 +21,10 @@ export default {
 		toggleSidebar() {
 			this.showSidebar = !this.showSidebar;
 		},
-		
 	},
+
+	
+
 };
 </script>
 
