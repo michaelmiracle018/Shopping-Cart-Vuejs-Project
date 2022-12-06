@@ -87,14 +87,13 @@ export default createStore({
 			return state.cart.reduce((sum, item) => {
 				return sum + item.quantity;
 			}, 0);
-
 		},
 	},
 
 	actions: {
 		addToCart({ commit }, item) {
-			localStorage.setItem("cart", JSON.stringify(item))
-			commit("addToCart", item)
+			localStorage.setItem("cart", JSON.stringify(item));
+			commit("addToCart", item);
 		},
 		removeFromCart({ commit }, id) {
 			commit("removeItem", id);
@@ -109,19 +108,26 @@ export default createStore({
 			commit("removeAllItem", cart);
 		},
 		getCartFromStorage({ commit }) {
-			localStorage.getItem(JSON.parse(cart))
-			commit("addToCart")
-		}
+			localStorage.getItem(JSON.parse(cart));
+			commit("addToCart");
+		},
 	},
 	mutations: {
 		addToCart(state, item) {
-		state.cart.push({ ...item, quantity: 1 });
-			// localStorage.setItem("cart", itemProduct)
-			state.products.map((product) => {
-				if (product.id === item.id) {
-					item.lock = true;
-				}
-			});
+			// state.cart.push({ ...item, quantity: 1 });
+				localStorage.setItem("comfy", JSON.stringify(item))
+			// 	state.products.map((product) => {
+			// 		if (product.id === item.id) {
+			// 			item.lock = true;
+			// 		}
+			// 	});
+			let itemFound = state.cart.find((p) => p.id === item.id);
+			if (!itemFound) {
+				state.cart.push({ ...item, quantity: 1 });
+			}
+			if (itemFound) {
+				itemFound.quantity = 1;
+			}
 		},
 		// saveCart: (state) => {
 		// 	window.localStorage.setItem("cart", JSON.stringify(state.cart));

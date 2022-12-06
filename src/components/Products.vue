@@ -9,7 +9,7 @@
 				<span @click="toggleSidebar" class="nav-icon">
 					<i class="fa-solid fa-cart-shopping"></i>
 				</span>
-				<div class="cart-items">{{cartQuantity}}</div>
+				<div class="cart-items">{{ cartQuantity }}</div>
 			</div>
 		</div>
 	</nav>
@@ -36,21 +36,15 @@
 						alt="Items"
 						class="product-img"
 					/>
-					<button
-						@click="addToCart(item)"
-						class="bag-btn"
-						data-id="1"
-						v-show="!item.lock"
-					>
+					<button @click="addToCart(item)" class="bag-btn" data-id="1" >
 						<i class="fa-solid fa-cart-shopping"></i>
-						<!-- {{ item.lock ? "In Cart" : "Add to Cart" }} -->
+						Add To cart
 					</button>
 				</div>
 				<h3>{{ item.title }}</h3>
-				<h4>${{ item.price  }}</h4>
+				<h4>${{ item.price }}</h4>
 			</article>
 			<!-- end of single products -->
-
 		</div>
 	</section>
 	<!-- end of products -->
@@ -62,14 +56,12 @@ export default {
 	name: "Products",
 	props: ["toggleSidebar"],
 	computed: {
-		...mapGetters(["displayCartItems",'cartQuantity', 'setBtnLock']),
+		...mapGetters(["displayCartItems", "cartQuantity", "setBtnLock"]),
 	},
 	methods: {
-		...mapActions(["addToCart",'setUpCart']),
+		...mapActions(["addToCart", "setUpCart"]),
 	},
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
